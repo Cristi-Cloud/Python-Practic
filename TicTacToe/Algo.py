@@ -58,7 +58,7 @@ def result_of_action2(status, action):
 def player(turn):
     return turn
 
-def minimax(status, turn:int):
+def minimax(status, turn:int, temp=0):
      if is_terminal(status):
          return value_status(status), None
 
@@ -67,6 +67,8 @@ def minimax(status, turn:int):
          act = None
          for action in actions(status):
              decision:int = minimax(result_of_action1(status, action), turn * -1)[0]
+             if temp > 0:
+                print(action, decision)
              if decision > value:
                  value = decision
                  act = action
@@ -101,15 +103,13 @@ def nextmove(tabel):
 
 def main():
     tabel = [
-        ['-', '-', '-'],
-        ['x', 'x', 'x'],
-        ['-', '-', '-']
+        ['x', '-', '-'],
+        ['o', 'x', 'x'],
+        ['o', 'o', '-']
     ]
-    finish = minimax(tabel, 1)
+    finish = minimax(tabel, 1, 1)
     print(finish)
 
-    print(is_terminal(tabel))
-    print(value_status(tabel))
 
 if __name__ == '__main__':
     main()
