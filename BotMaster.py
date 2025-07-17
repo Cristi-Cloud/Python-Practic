@@ -20,4 +20,60 @@ def tictactoe(rounds:int = 1):
     else:
         print("No Tac Tac Tac Tac Tac")
 
-tictactoe(3)
+
+import Chess.CtrlScr
+import Chess.Algo
+
+def chess():
+    win = Chess.CtrlScr.init_screen()
+    img = Chess.CtrlScr.take_screenshot(win)
+    coord, team = Chess.CtrlScr.get_table(img)
+
+    prime_chessboard = Chess.CtrlScr.get_table_status(img.crop((coord[0], coord[1], coord[0] + 752, coord[1] + 752)))
+    #board = [[]]
+    #black_board = [[f"{col}{row}" for col in "hgfedcba"] for row in range(1, 9)]
+    board = [[f"{col}{row}" for col in "abcdefgh"] for row in range(8, 0, -1)]
+    current_status = []
+
+    move = Chess.Algo.get_next_move(current_status)
+    current_status.append(move)
+    part1 = move[:2]
+    part2 = move[2:]
+    Chess.CtrlScr.make_a_move(board, win.left + coord[0], win.top + coord[1], part1)
+    Chess.CtrlScr.make_a_move(board, win.left + coord[0], win.top + coord[1], part2)
+    img = Chess.CtrlScr.take_screenshot(win)
+    prime_chessboard = Chess.CtrlScr.get_table_status(img.crop((coord[0], coord[1], coord[0] + 752, coord[1] + 752)))
+
+    running = True
+    while running:
+        img = Chess.CtrlScr.take_screenshot(win)
+        temp_chessboard = Chess.CtrlScr.get_table_status(img.crop((coord[0], coord[1], coord[0] + 752, coord[1] + 752)))
+        moves = Chess.CtrlScr.move_done(prime_chessboard, temp_chessboard)
+        if moves == []:
+            continue
+        else:
+            movement = ''
+            for move in moves:
+                print(board[move[0]][move[1]])
+                movement += board[move[0]][move[1]]
+            current_status.append(movement)
+            print(current_status)
+            move = Chess.Algo.get_next_move(current_status)
+            current_status.append(move)
+            if move is None:
+                running = False
+            else:
+                part1 = move[:2]
+                part2 = move[2:]
+                Chess.CtrlScr.make_a_move(board, win.left + coord[0], win.top + coord[1], part1)
+                Chess.CtrlScr.make_a_move(board, win.left + coord[0], win.top + coord[1], part2)
+                img = Chess.CtrlScr.take_screenshot(win)
+                prime_chessboard = (
+                    Chess.CtrlScr.get_table_status(
+                    img.crop((coord[0], coord[1], coord[0] + 752, coord[1] + 752))))
+
+    return
+
+if __name__ == '__main__':
+    #tictactoe(3)
+    chess()

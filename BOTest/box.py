@@ -18,6 +18,15 @@ def main():
     pyautogui.moveTo(620, 85 + 219 , duration=1)
     pyautogui.click()
 
+    x = win.left
+    y = win.top
+
+    width = win.width
+    height = win.height
+
+    print(f"Position: ({x}, {y})")
+    print(f"Dimension: {width}x{height}")
+
     return img
 
 if __name__ == '__main__':
