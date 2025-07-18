@@ -75,5 +75,16 @@ def chess():
     return
 
 if __name__ == '__main__':
-    #tictactoe(3)
-    chess()
+    print("\n     !!! WELCOME to the BOTMASTER !!! \n")
+    print("Choose your game: ")
+    print(" 1) TicTacToe")
+    print(" 2) Chess")
+
+    game = int(input("\nYour choice (1 or 2): "))
+
+    if game == 1:
+        tictactoe(3)
+    elif game == 2:
+        chess()
+    else:
+        print("\n->Invalid input")
